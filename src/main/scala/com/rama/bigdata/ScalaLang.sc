@@ -176,6 +176,20 @@ val greetEng = greeting("Eng")
 greetEng("Melanie")
 
 
+//
+// https://docs.scala-lang.org/cheatsheets/index.html
+//
+
+def compose(g:Int=>Int, h:Int=>Int) = (x:Int) => g(h(x))
+val f = compose({_*2}, {_-1})
+println(f)
+println(f(10))
+
+
+def compose2(g:Int=>Int, h:Int=>Int) = (x:Int) => h(x)*g(x)
+val f2 = compose2({_*2}, {_-1})
+println(f2)
+println(f2(10))
 
 
 
