@@ -180,6 +180,9 @@ greetEng("Melanie")
 // https://docs.scala-lang.org/cheatsheets/index.html
 //
 
+
+// anonymous functions: to pass in multiple blocks,
+// need outer parens.
 def compose(g:Int=>Int, h:Int=>Int) = (x:Int) => g(h(x))
 val f = compose({_*2}, {_-1})
 println(f)
@@ -190,6 +193,70 @@ def compose2(g:Int=>Int, h:Int=>Int) = (x:Int) => h(x)*g(x)
 val f2 = compose2({_*2}, {_-1})
 println(f2)
 println(f2(10))
+
+
+val zscore = (mean:Double, sd:Double) => (x:Double) => (x-mean)/sd
+val normer = zscore(1, 1)
+
+normer(10)
+
+val list1 = List(1,2,3)
+
+list1.map(normer(_))
+
+// https://www.safaribooksonline.com/library/view/programming-scala-2nd/9781491950135/ch06.html#FunctionalProgramming
+
+// Partially Applied Functions Versus Partial Functions
+/*
+A partially applied function is an expression with some,
+but not all of a function’s argument lists applied (or provided),
+returning a new function that takes the remaining argument lists.
+
+A partial function is a single-argument function that is not
+defined for all values of the type of its argument.
+The literal syntax for a partial function is one or
+more case match clauses enclosed in curly braces.
+ */
+def cat11(s1: String)(s2: String) = s1 + s2
+
+val hello = cat11("Hello ") _
+hello("World !")
+cat11("Hello ")("World !")
+
+val inverse: PartialFunction[Double,Double] = {
+   case d if d != 0.0 => 1.0 / d
+  }
+
+inverse(2.0)
+//inverse(0.0)
+
+// Currying functions
+
+def cat1(s1: String)(s2: String) = s1 + s2
+
+def cat2(s1: String) = (s2: String) => s1 + s2
+
+val cat2hello = cat2("Hello ") // No _
+cat2hello("World !")
+
+def cat3(s1: String, s2: String) = s1 + s2
+cat3("Hello", "world")
+
+val cat3Curried = (cat3 _).curried
+cat3Curried("Hello")("world")
+
+
+
+def mult(d1: Double, d2: Double, d3: Double) = d1 * d2 * d3
+val d3 = (2.2, 3.3, 4.4)
+mult(d3._1, d3._2, d3._3)
+
+val multTupled = Function.tupled(mult _)
+multTupled(d3)
+
+
+
+
 
 
 
